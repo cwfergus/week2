@@ -1,0 +1,17 @@
+{
+    "contents" : "complete <- function(directory, id=1:332){\n  files_list <- list.files(directory, full.names=TRUE)\n  data <- data.frame()\n  for (i in id){\n    data <- rbind(data, read.csv(files_list[i]))\n  }\n  x <- 0\n  y <- 1  \n  while(y <= length(id)){\n      x <- id[y]\n      nobs[y] <- sum(complete.cases(data[which(data[,\"ID\"]==x),]))\n    y<- y+1\n    x <- id[y]\n    }\n  \n    output<- data.frame(id= id, nobs=nobs)\n  output\n}\n## this is working, but the loop overwrites the nobs file, causing it to only \n\n  ",
+    "created" : 1421186614724.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2685392176",
+    "id" : "D508952B",
+    "lastKnownWriteTime" : 1421199637,
+    "path" : "C:/Users/cferguson/Desktop/Coursera/R-Programming/week2/complete.R",
+    "project_path" : "complete.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
