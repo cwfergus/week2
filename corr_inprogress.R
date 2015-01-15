@@ -76,7 +76,7 @@ if (comp_list[i,"nobs"] >= threshold) {
     comp_list <- complete(directory, 1:10)
     files_list <- list.files(directory, full.names=TRUE)
     corr_values<- vector(mode="numeric")
-    abv_thres <- data.frame(mode="numeric")
+    abv_thres <- data.frame(mode="numeric") ## what if I make this the exact same as a potentail file
     for (i in 1:10) {
       if (comp_list[i,"nobs"]>= threshold){ ## something is wrong in this if statement
         abv_thres[i] <- read.csv(files_list[i])
@@ -105,7 +105,7 @@ corr <- function(directory, threshold=0){
   comp_list <- complete(directory, 1:10)
   files_list <- list.files(directory, full.names=TRUE)
   corr_values<- vector(mode="numeric")
-  abv_thres <- data.frame(date=NA, sulfate=NA, nitrate=NA, ID=NA)## what if I make this the exact same as a potentail file
+  abv_thres <- data.frame(date=NA, sulfate=NA, nitrate=NA, ID=NA)
   for (i in 1:10) {
     if (comp_list[i,"nobs"]>= threshold){
       abv_thres <- read.csv(files_list[i])
@@ -128,11 +128,11 @@ corr <- function(directory, threshold=0){
   comp_list <- complete(directory, 1:332)
   files_list <- list.files(directory, full.names=TRUE)
   corr_values<- vector(mode="numeric")
-  abv_thres <- data.frame(date=NA, sulfate=NA, nitrate=NA, ID=NA)## what if I make this the exact same as a potentail file
+  abv_thres <- data.frame(date=NA, sulfate=NA, nitrate=NA, ID=NA)
   for (i in 1:332) {
     if (comp_list[i,"nobs"]>= threshold){
       abv_thres <- read.csv(files_list[i])
-      if (is.na(abv_thres[1,4]) != TRUE) { ## AHA! this expression can't work
+      if (is.na(abv_thres[1,4]) != TRUE) { 
         i <- i-1
         corr_values[i] <- cor(abv_thres[,"sulfate"], abv_thres[,"nitrate"], use="complete.obs")
         i <- i+1
@@ -141,11 +141,48 @@ corr <- function(directory, threshold=0){
       print("that didn't work")
     }
   }
-    corr_values
+    corr_values ## returns NA's...
 }
 
 ## the above works, but places NA's at IDs that don't pass threshold
 ## so this is going to have to be rewritten, although it works in theory
 
+## thats a simple fix. Remove the NA's with a which is.na statement. 
 
-corr_values[i] <- cor(abv_thres[,"sulfate"], abv_thres[,"nitrate"], use="complete.obs")
+corr <- function(directory, threshold=0){
+  comp_list <- complete(directory, 1:332)
+  files_list <- list.files(directory, full.names=TRUE)
+  corr_values_NA<- vector(mode="numeric")
+  abv_thres <- data.frame(date=NA, sulfate=NA, nitrate=NA, ID=NA)
+  for (i in 1:332) {
+    if (comp_list[i,"nobs"]>= threshold){ ## this needs to be > not >=
+      abv_thres <- read.csv(files_list[i])
+      if (is.na(abv_thres[1,4]) != TRUE) { 
+        corr_values_NA[i] <- cor(abv_thres[,"sulfate"], abv_thres[,"nitrate"], use="complete.obs")
+      }
+    }
+  }
+  corr_values <- corr_values_NA[which(is.na(corr_values_NA) != TRUE)]
+  corr_values
+} 
+
+## this is soo close! It's returning values just slightly different than the examples... whats going on
+## AHHH its needs to be ABOVE the threshold, not above or equal.
+corr <- function(directory, threshold=0){
+  comp_list <- complete(directory, 1:332)
+  files_list <- list.files(directory, full.names=TRUE)
+  corr_values_NA<- vector(mode="numeric")
+  abv_thres <- data.frame(date=NA, sulfate=NA, nitrate=NA, ID=NA)
+  for (i in 1:332) {
+    if (comp_list[i,"nobs"]> threshold){ 
+      abv_thres <- read.csv(files_list[i])
+      if (is.na(abv_thres[1,4]) != TRUE) { 
+        corr_values_NA[i] <- cor(abv_thres[,"sulfate"], abv_thres[,"nitrate"], use="complete.obs")
+      }
+    }
+  }
+  corr_values <- corr_values_NA[which(is.na(corr_values_NA) != TRUE)]
+  corr_values
+} 
+
+## it works! I have my function
