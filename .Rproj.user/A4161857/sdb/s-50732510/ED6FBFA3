@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1421279564527.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "ED6FBFA3",
+    "lastKnownWriteTime" : 1936028264,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "abv_thres",
+        "contentUrl" : "content?title=abv_thres&file=5dfe092fe5564e1584702d95413710bd.htm",
+        "displayedObservations" : 1,
+        "displayedVariables" : 1,
+        "totalObservations" : 1,
+        "variables" : 1
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

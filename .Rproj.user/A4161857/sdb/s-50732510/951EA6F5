@@ -1,0 +1,17 @@
+{
+    "contents" : "corr <- function(directory, threshold=0){\n  comp_list <- complete(directory, 1:332)\n  files_list <- list.files(directory, full.names=TRUE)\n  corr_values_NA<- vector(mode=\"numeric\")\n  abv_thres <- data.frame(date=NA, sulfate=NA, nitrate=NA, ID=NA)## what if I make this the exact same as a potentail file\n  for (i in 1:332) {\n    if (comp_list[i,\"nobs\"]> threshold){ ## oh oh I just removed the <= sign...!! \n      abv_thres <- read.csv(files_list[i])\n      if (is.na(abv_thres[1,4]) != TRUE) { \n        corr_values_NA[i] <- cor(abv_thres[,\"sulfate\"], abv_thres[,\"nitrate\"], use=\"complete.obs\")\n      }\n    }\n  }\n  corr_values <- corr_values_NA[which(is.na(corr_values_NA) != TRUE)]\n  corr_values\n} \n\n## it works it works halelua!\n\n",
+    "created" : 1421281152334.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "130614835",
+    "id" : "951EA6F5",
+    "lastKnownWriteTime" : 1421285111,
+    "path" : "C:/Users/cferguson/Desktop/Coursera/R-Programming/week2/corr.R",
+    "project_path" : "corr.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

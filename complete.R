@@ -6,6 +6,7 @@ complete <- function(directory, id=1:332){
   }
   x <- 0
   y <- 1  
+  nobs<-1
   while(y <= length(id)){
       x <- id[y]
       nobs[y] <- sum(complete.cases(data[which(data[,"ID"]==x),]))
